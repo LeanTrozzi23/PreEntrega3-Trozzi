@@ -34,9 +34,20 @@ const renderProducts = (arrayPorductos) => {
 renderProducts(carrito);
 
 const eliminarDelCarrito = (id) => {
-  carrito = carrito.filter((elemento) => elemento.id !== id);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  renderProducts(carrito);
+  Swal.fire({
+    title: "¿Estás seguro de eliminar este producto del carrito?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: "Eliminar",
+    denyButtonText: "Cancelar",
+  }).then((res) => {
+    if (res.isConfirmed) {
+      carrito = carrito.filter((elemento) => elemento.id !== id);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      renderProducts(carrito);
+    } else if (res.isDenied) {
+    }
+  });
 };
 
 const sumarCantidad = (id) => {
